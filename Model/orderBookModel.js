@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
 
-const mongoose = require('mongoose')
-
 const orderBookSchema = new mongoose.Schema({
     buyer_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        default: null,
     },
     seller_id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -23,12 +22,16 @@ const orderBookSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true
+    },
+    order_catagory: {
+        type: String,
+        required: true,
     }
 
 }, {
     timestamps: true
-})
+});
 
-const OrderBook = mongoose.model('orderBook', orderBookSchema)
+const OrderBook = mongoose.model('orderBook', orderBookSchema);
 
 module.exports = OrderBook

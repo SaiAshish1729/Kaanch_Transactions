@@ -4,7 +4,7 @@ const cors = require("cors");
 const Connection = require('./DB/Connection');
 const port = process.env.APP_PORT || 5000;
 const userRoute = require("./Routes/userRoutes.js")
-
+const orderRoute = require("./Routes/orderRoutes.js")
 const app = express();
 app.use(express.json());
 app.use(cors({
@@ -20,6 +20,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/order", orderRoute);
 
 app.listen(port, () => {
     console.log(`Server listning at port  http://localhost:${port}`);
