@@ -8,7 +8,8 @@ const orderBookSchema = new mongoose.Schema({
     },
     seller_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        default: null,
     },
     currency: {
         type: String
