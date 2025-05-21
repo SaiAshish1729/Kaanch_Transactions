@@ -215,8 +215,36 @@ const buyOrder = async (req, res) => {
 
 const fetchPendingOrders = async (req, res) => {
     try {
-        const allData = await OrderBook.find({ status: ORDER_BOOK_STATUS.PENDING });
-        return res.status(200).json({ success: true, message: "Order list fetched successfully.", data: allData });
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+
+        const skip = (page - 1) * limit;
+
+        // const allData = await OrderBook.find({ status: ORDER_BOOK_STATUS.PENDING });
+        const allData = await OrderBook.aggregate([
+            {
+                $match: { status: ORDER_BOOK_STATUS.PENDING }
+            },
+            {
+                $facet: {
+                    data: [
+                        { $skip: skip },
+                        { $limit: limit }
+                    ],
+                    totalCount: [
+                        { $count: "total" }
+                    ]
+                }
+            }
+        ])
+        return res.status(200).json({
+            success: true, message: "Order list fetched successfully.",
+            result: allData[0],
+            meta: {
+                current_page: page,
+                limit_per_page: limit,
+            }
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).send({ message: "Server error while fetching orders list.", error });
