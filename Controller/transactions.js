@@ -201,7 +201,7 @@ const buyOrder = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "Partial buy order completed. Remaining quantity updated.",
+            message: "Partial buy order completed.Remaining quantity updated.",
             data: {
                 updatedOrder: order,
                 completedOrder
@@ -236,13 +236,16 @@ const fetchPendingOrders = async (req, res) => {
                     ]
                 }
             }
-        ])
+        ]);
+        const total_pages = Math.round(allData[0]?.totalCount[0].total / limit);
+
         return res.status(200).json({
             success: true, message: "Order list fetched successfully.",
             result: allData[0],
             meta: {
                 current_page: page,
                 limit_per_page: limit,
+                total_pages: total_pages
             }
         });
     } catch (error) {
