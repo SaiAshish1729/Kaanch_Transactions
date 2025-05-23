@@ -22,7 +22,14 @@ const createSellOrderValidation = Joi.object({
 });
 
 
+const buyOrderValidation = Joi.object({
+    orderTable_id: Joi.string().required().label("orderTable_id"),
+    buyer_id: Joi.string().required().label("buyer_id"),
+    quantity: Joi.string().required().label("quantity"),
+})
+
 module.exports = {
     validateRequest,
-    createSellOrderValidation
+    createSellOrderValidation,
+    buyOrderValidation,
 }
